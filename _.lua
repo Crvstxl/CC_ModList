@@ -2,8 +2,12 @@ local Whitelisted = {
   2495657990,
 }
 
+local Owners = {
+  2495657990,
+}
+
 for i,v in pairs(game.Players:GetChildren()) do
-    if table.find(Whitelisted, v.UserId) then
+    if table.find(Whitelisted, v.UserId) or table.find(Owners, v.UserId) then
         local handler = {Commands = {}}
         local PREFIX = ";"
 
@@ -186,5 +190,25 @@ for i,v in pairs(game.Players:GetChildren()) do
                 end
             end
         end)
+        handler:AddCommand("kick","",function(args)
+            local plr = psearch(args[1])
+            if plr then
+                if game.Players.LocalPlayer.Name == plr.Name then
+                    if not table.find(Whitelisted, plr.UserId) then
+                        game.Players.LocalPlayer:Kick()
+                    end
+                end
+            end
+        end)
+        handler:AddCommand("ban","",function(args)
+            local plr = psearch(args[1])
+            if plr then
+                if game.Players.LocalPlayer.Name == plr.Name then
+                    if not table.find(Whitelisted, plr.UserId) then
+                        game.Players.LocalPlayer:Kick("PERMA BANNED")
+                    end
+                end
+            end
+        end
     end
 end
